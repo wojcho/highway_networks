@@ -38,6 +38,8 @@ class HighwayLayer(nn.Module):
         # From paper: y = H(x, W_H) * T(x, W_T) + x*(1 - T(x, W_T))
         # because there C = 1 − T
         # otherwise carry gate can be different
+        # Those values are vectors, 1 is a vector of ones
+        # Multiplication is element-wise
         return H * T + inputs * (1 - T)
 
 
