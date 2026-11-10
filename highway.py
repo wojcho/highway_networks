@@ -83,30 +83,10 @@ test_loss, test_accuracy = evaluate(
 print(f"Test Loss: {test_loss:.4f}")
 print(f"Test Accuracy: {test_accuracy:.2%}")
 
-
-# Plotting
-
-fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-# Loss
-axes[0].plot(history["train_loss"], label="Training")
-axes[0].plot(history["validation_loss"], label="Validation")
-
-axes[0].set_title("Loss")
-axes[0].set_xlabel("Epoch")
-axes[0].set_ylabel("Cross Entropy Loss")
-axes[0].legend()
-axes[0].grid()
-
-# Accuracy
-axes[1].plot(history["train_accuracy"], label="Training")
-axes[1].plot(history["validation_accuracy"], label="Validation")
-
-axes[1].set_title("Accuracy")
-axes[1].set_xlabel("Epoch")
-axes[1].set_ylabel("Accuracy")
-axes[1].legend()
-axes[1].grid()
-
-plt.tight_layout()
-plt.show()
+torch.save({
+    "epoch": epochs,
+    "model_state_dict": model.state_dict(),
+    "optimizer_state_dict": optimizer.state_dict(),
+    "history": history
+}, "highway_checkpoint.pth")
+print("Model checkpoint saved")
