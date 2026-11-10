@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader, random_split
 
 import pickle
-
+import numpy as np
 
 def unpickle(file_path: str):
     # From here https://cave.cs.toronto.edu/kriz/cifar.html
@@ -21,7 +21,7 @@ cifar_labels = unpickle("./cifar-10-batches-py/batches.meta")
 
 # Combine the five training batches
 X_train = torch.tensor(
-    __import__("numpy").concatenate(
+    np.concatenate(
         [batch[b"data"] for batch in cifar_train_batches],
         axis=0
     ),
@@ -44,11 +44,12 @@ y_test = torch.tensor(
     dtype=torch.long
 )
 
+
 # Normalize pixel values to [0, 1] to avoid bad conditioning
 X_train /= 255.0
 X_test /= 255.0
 
-# Reshape flattened images into (N, C, H, W) for normalization
+# Reshape flattened images into (N, C, H, W) for normalization (amount of images, amount of color channels, height of an image, width of an image)
 X_train = X_train.reshape(-1, 3, 32, 32)
 # Test part, using same normalizations from training set to not leak data
 X_test = X_test.reshape(-1, 3, 32, 32)
@@ -84,6 +85,7 @@ train_subset, validation_subset = random_split(
     [training_size, validation_size],
     generator=torch.Generator().manual_seed(42)
 )
+
 
 # DataLoaders
 batch_size = 128
