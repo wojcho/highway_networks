@@ -15,9 +15,9 @@ device = torch.device(
 
 model = HighwayNetwork(
     input_size=3072, # As in input, 32*32*3 (32x32 images with 3 channels from RGB)
-    hidden_size=512, # TODO choose
+    hidden_size=512, # From trying by grid with short amount of epochs
     output_size=10, # 10 categories
-    layers_amount=3, # TODO choose
+    layers_amount=3, # From trying by grid with short amount of epochs
     activation_function=F.relu, # Most commonly used
     bias=-3.0 # As in paper
 ).to(device)
