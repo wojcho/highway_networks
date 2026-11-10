@@ -35,7 +35,7 @@ class HighwayLayer(nn.Module):
     def forward(self, inputs): # inputs: (samples_amount, features_amount) -> caches
         H = self.activation(self.weights_hidden(inputs)) # From paper: H is usually an affine transform (multiply by a matrix, add vector) followed by a non-linear activation function, but in general it may take other forms
         T = torch.sigmoid(self.weights_transform(inputs)) # From paper: T(x) = sigma(W^T x + b), sigma(x) = 1 / (1 + e**(-x)) https://docs.pytorch.org/docs/2.14/generated/torch.nn.Sigmoid.html
-        # From paper: y = H(x, W) * T(x, W) + x*(1 - T(x, W))
+        # From paper: y = H(x, W_H) * T(x, W_T) + x*(1 - T(x, W_T))
         # because there C = 1 − T
         # otherwise carry gate can be different
         return H * T + inputs * (1 - T)
